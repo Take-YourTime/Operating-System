@@ -2,7 +2,7 @@
 
 O.S. course data in NSYSU (National Sun Yat-sen University).
 
-This repository contains four programming assignments from the Operating System course. Each assignment focuses on a different core OS concept implemented on Minix3 or as a standalone C/C++ program.
+This repository contains four programming assignments from the Operating System course. Each assignment focuses on a different core OS concept implemented on Minix3 or as a standalone C program.
 
 ---
 
