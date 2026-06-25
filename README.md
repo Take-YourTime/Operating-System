@@ -1,95 +1,61 @@
-# Operating-System
+# Operating System Homework Readme
 
-Assignments of O.S. course in NSYSU (National Sun Yat-sen University).
+This repository contains the four programming assignments from the **Operating System** course. Below are the descriptions and implementation details for each assignment.
 
-This repository contains four programming assignments from the Operating System course. Each assignment focuses on a different core OS concept implemented on Minix3 or as a standalone C/C++ program.
+## HW1: Custom Simple Minix Shell Implementation
 
----
+### Description
 
-## pro_HW1 — Custom Shell (Basic)
+Implement a custom Shell capable of executing basic commands and system programs.
 
-**Files:** `shell.c`, `testfile.txt`, `Programming Assignment 1.pdf`, `ReadMe.txt`
+### Implementation Details
 
-A Unix-like shell implemented in C, designed to run on Minix3. The shell supports the following built-in commands:
+- Written in C (`shell.c`).
+- Implemented built-in commands such as `exit`, `cd`, `pwd`, `history` (display a specified number of history records), `help`, as well as customized commands like `NSYSU` and `rabbit`.
+- Supports executing other default commands in the Minix3 system.
+- Capable of handling various Shell Operators, including: background execution (`&`), input/output redirection (`>`, `>>`, `<`), and pipeline (`|`).
+- The core logic uses `fork()` to create Child Processes, and utilizes `exec` family functions to execute external commands; redirection and pipelining are achieved by manipulating File Descriptors and `pipe()`.
 
-| Command | Description |
-|---------|-------------|
-| `exit` | Terminate the shell |
-| `cd` | Change the current directory |
-| `pwd` | Print the current working directory |
-| `history [n]` | Display the last *n* commands used (default: all) |
-| `help` | Display the list of supported commands |
-| `NSYSU` | Print an introduction to NSYSU |
-| `rabbit` | Display an ASCII-art rabbit |
+## HW2: Minix Kernel Modification & Process Scheduling
 
-In addition to built-in commands, the shell supports standard Minix3 commands and the following shell operators:
+### Description
 
-- `&` — Run a command in the background
-- `>` — Redirect stdout to a file (overwrite)
-- `>>` — Redirect stdout to a file (append)
-- `|` — Pipe the output of one command into another
+Modify the Minix 3 kernel source code to alter the Process priority and scheduling mechanism, and monitor process information.
 
----
+### Implementation Details
+ 
+- Achieved by modifying the `proc.c`, `proc.h`, `system.c`, and `clock.c` files in the Minix operating system kernel.
+- The implementation is divided into three parts: modifying the system's scheduling algorithm, setting Process Priorities, and adding a timer function in `clock.c` to output the number of processes in each Priority Level periodically.
+- Copy the modified code to the `/usr/src/minix/kernel` directory, recompile the kernel using `make clean`, `make kernel`, and `make install`, and then Reboot to apply the new kernel.
+  
+### Note
 
-## pro_HW2 — Kernel Process Scheduling (Minix3)
+This assignment was not perfectly completed to the requirements. Minix is just too tricky.
 
-**Files:** `proc.c`, `proc.h`, `system.c`, `clock.c` (inside sub-folders `1/` and `2/`), `Programming Assignment 2.pdf`, `DesignDocument.pdf`, `ReadMe.txt`
+## HW3: Shared Memory and Process Management
 
-This assignment involves modifying the Minix3 kernel to experiment with process scheduling and priority management. There are three sub-problems:
+### Description
 
-- **Problem 1 (`1/`):** Modify the kernel scheduler (`proc.c`, `proc.h`, `system.c`) to observe process priorities. After rebooting, use `top` to examine system performance.
-- **Problem 2 (`2/`):** Apply an alternative `proc.c` with different scheduling behaviour, rebuild the kernel, and compare performance with Problem 1.
-- **Problem 3:** Combines the kernel patches from either sub-problem with a modified `clock.c` that periodically prints the number of processes at each priority level to the screen. The system is accessed via SSH remote connection.
+Extend the Shell from HW1 by adding Shared Memory and advanced Child Process management features.
 
-To apply any sub-problem, copy the relevant kernel source files to `/usr/src/minix/kernel`, rebuild and reinstall the kernel, then reboot and select option 2 at startup.
+### Implementation Details
 
----
+- Written in C (`shell.c`), retaining the basic features from HW1.
+- When executing the Shell, arguments can be passed to determine the number of child processes to create (default is 1). If an undefined command is entered, it will be output multiple times simultaneously by these child processes.
+- Implemented process management functions (such as `Waitpid`, `ProcessFork`, `Spawn`, `Exit`) to control the status of child processes.
+- Utilized `sys/shm.h` and `sys/ipc.h` libraries to create and attach Shared Memory using `shmget` and `shmat`, allowing variables and data to be shared between the Parent Process and Child Processes.
 
-## pro_HW3 — Custom Shell with Shared Memory
+## HW4: Disk Scheduling Algorithms
 
-**Files:** `shell.c`, `Programming Assignment 3 v3.pdf`, `DesignDocument.pdf`, `ReadMe.txt`
+### Description
 
-An extended version of the HW1 shell that adds **multi-process** and **shared memory** support. All original HW1 built-in commands and shell operators are retained.
+Implement and compare the performance of various Disk Scheduling Algorithms regarding head movement distance and latency.
 
-New behaviour:
-- When the shell is started with a numeric argument (e.g., `./shell 3`), it spawns that many child processes.
-- Any unrecognised command is written to **shared memory** and repeated across all child processes, demonstrating inter-process communication via shared memory.
+### Implementation Details
 
-**Build & run:**
-```bash
-clang shell.c -o shell
-./shell 3   # spawn 3 child processes
-```
-
----
-
-## pro_HW4 — Disk Scheduling Algorithms
-
-**Files:** `DiskSchedulingAlgorithms.cpp`, `out.txt`, `Programming Assignment 4 (mod) v2.pdf`, `DesignDocument.pdf`, `ReadMe.txt`
-
-A C++ (C++17) simulation of classic disk scheduling algorithms on a disk with 5,000 cylinders and 1,000 random I/O requests. The program:
-
-1. Displays all randomly generated request positions (cylinder number and location).
-2. Prompts the user to enter the initial head position (0–4999).
-3. Outputs the **total head movement** (number of cylinders traversed) and **average latency** (ms) for each scheduling algorithm.
-4. Accepts `-1` as input to terminate; upon exit, prints the average latency across all test cases.
-
-Scheduling algorithms implemented:
-
-| Algorithm | Description |
-|-----------|-------------|
-| **FCFS** | First-Come, First-Served — processes requests in arrival order |
-| **SSTF** | Shortest Seek Time First — services the nearest cylinder request first |
-| **SCAN** | Moves the head in one direction, servicing requests, then reverses at the disk end |
-| **C-SCAN** | Like SCAN, but the head returns to the start after reaching the far end (circular) |
-| **LOOK** | Like SCAN, but reverses at the furthest pending request instead of the disk end |
-| **C-LOOK** | Like C-SCAN, but jumps back to the nearest pending request instead of the disk start |
-
-Sample output is provided in `out.txt`.
-
-> **Note:** Compile and run with Visual Studio or a compatible C++17 compiler. Avoid DEV-C++.
-
-**Build example (Visual Studio command line):**
-```
-cl /std:c++17 DiskSchedulingAlgorithms.cpp
-```
+- Written in C++ (`DiskSchedulingAlgorithms.cpp`), supporting common scheduling algorithms such as FCFS, SSTF, and SCAN.
+- During execution, the program randomly generates a series of disk Cylinder Requests.
+- It then prompts the user to input the initial position of the disk head (between 0 and 4999).
+- In the algorithm logic, C++'s `vector` is used to store Requests, and STL functions like `min_element` are used to find the next target Cylinder.
+- The program calculates the "Total Head Movement" and "Latency" for each algorithm.
+- You can input multiple initial positions for testing. When `-1` is entered to terminate, it will automatically calculate and output the average latency of all test cases.
