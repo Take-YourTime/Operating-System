@@ -1,5 +1,7 @@
 # Operating System 作業說明 (Homework Readme)
 
+> [English](README.md) | [繁體中文]
+
 這份 repo 包含了**作業系統**課程裡的四次程式作業，以下是各個作業的題目說明與實作方式介紹。
 
 ## HW1: Custom Simple Minix Shell Implementation
