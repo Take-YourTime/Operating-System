@@ -1,4 +1,4 @@
-# Operating System 作業說明 (Homework Readme)
+# Operating System
 
 > [English](README.md) | [繁體中文]
 
