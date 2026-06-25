@@ -28,7 +28,7 @@ Modify the Minix 3 kernel source code to alter the Process priority and scheduli
 - The implementation is divided into three parts: modifying the system's scheduling algorithm, setting Process Priorities, and adding a timer function in `clock.c` to output the number of processes in each Priority Level periodically.
 - Copy the modified code to the `/usr/src/minix/kernel` directory, recompile the kernel using `make clean`, `make kernel`, and `make install`, and then Reboot to apply the new kernel.
   
-### Note
+### WATCHOUT
 
 This assignment was not perfectly completed to the requirements. Minix is just too tricky.
 
