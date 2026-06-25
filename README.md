@@ -1,4 +1,4 @@
-# Operating System Homework Readme
+# Operating System
 
 > [English] | [繁體中文](README_zh-TW.md)
 
