@@ -2,7 +2,9 @@
 
 > [English] | [繁體中文](README_zh-TW.md)
 
-This repository contains the four programming assignments from the **Operating System** course. Below are the descriptions and implementation details for each assignment.
+This repository contains the four programming assignments from the Operating System course, including the implementation of simple shell, process scheduling and kernel programming of Minix-3.
+
+Below are the descriptions and implementation details for each assignment.
 
 ## HW1: Custom Simple Minix Shell Implementation
 
